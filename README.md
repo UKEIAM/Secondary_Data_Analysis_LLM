@@ -1,4 +1,4 @@
-# Project template: Python without GPU
+# Project template: Python without GPU 
 This repository represents a blueprint for projects with Python:
 
 - Python 3.9, git, and pip
