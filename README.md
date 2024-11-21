@@ -1,3 +1,7 @@
+### If you are reading this, I have either forgotten to remove the text in time or worse, you are currently reviewing my paper and I have not yet updated this repository.
+
+### Due to problems with the UKE's VPN access, this repository could not be finished in time for the deadline of my thesis, but it will be updated soon.
+
 # Project template: Python without GPU 
 This repository represents a blueprint for projects with Python:
 
