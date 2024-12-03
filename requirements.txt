@@ -1,0 +1,8 @@
+numpy
+transformers
+torch
+pandas
+vllm 
+langchain 
+seaborn
+scipy
