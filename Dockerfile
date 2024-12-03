@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/devcontainers/python:3.10
+ARG PYTORCH_VERSION="23.10-py3"
+FROM nvcr.io/nvidia/pytorch:${PYTORCH_VERSION}
 
 # Install the components required by Visual Studio Code given the script found at https://github.com/microsoft/vscode-dev-containers/tree/main/script-library.
 # This is disabled by default. Set INSTALL_VSCODE = 1 to enable.
@@ -14,19 +15,18 @@ RUN if [ "${INSTALL_VSCODE}" = "0" ] ; \
     mkdir /var/run/sshd && mkdir -p /run/sshd \
     echo 'root:root' | chpasswd && \
     useradd -m ${USERNAME} && passwd -d ${USERNAME} && \
-    usermod -aG www-data ${USERNAME} && \
     sed -i'' -e's/^#PermitRootLogin prohibit-password$/PermitRootLogin yes/' /etc/ssh/sshd_config \
         && sed -i'' -e's/^#PasswordAuthentication yes$/PasswordAuthentication yes/' /etc/ssh/sshd_config \
         && sed -i'' -e's/^#PermitEmptyPasswords no$/PermitEmptyPasswords yes/' /etc/ssh/sshd_config \
         && sed -i'' -e's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config && \
     echo 'export PATH="/opt/conda/bin:$PATH"' >> /home/${USERNAME}/.bashrc ; \
-    else usermod -aG www-data vscode ; \
+    else echo "Skipping SSH server" ; \
     fi
 
 # Install all the requirements in the requirements.txt
 COPY requirements.txt /tmp/pip-tmp/
 RUN pip3 --disable-pip-version-check --no-cache-dir install ipykernel && pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt && rm -rf /tmp/pip-tmp
-
+RUN curl -sSL https://install.python-poetry.org | python3 -
 # You may run all the code you require for customizing the environment here ...
 
 # Expose the SSH server
